@@ -341,7 +341,7 @@ export default function DatePicker({
         </div>
 
         {/* Calendar grid */}
-        <div className="grid grid-cols-7 gap-1 mb-4 relative date-range-picker">
+        <div className="grid grid-cols-7 gap-x-1 gap-y-2 mb-4 relative date-range-picker">
           {calendarDays.map((date, index) => {
             return date ? (
               <DateBox

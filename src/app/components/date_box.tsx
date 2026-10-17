@@ -53,17 +53,17 @@ export function DateBox({
   const isToday = date.toDateString() === new Date().toDateString();
 
   let cellClasses =
-    "aspect-square flex items-center justify-center text-sm cursor-pointer transition-all duration-150 touch-manipulation select-none relative ";
+    "aspect-square flex items-center justify-center text-sm cursor-pointer transition-all duration-150 touch-manipulation select-none relative rounded-lg ";
 
   if (disabled) {
-    cellClasses += "text-gray-300 cursor-not-allowed ";
+    cellClasses += "bg-gray-50 text-gray-300 cursor-not-allowed ";
   } else if (isStart || isEnd) {
     if (userRangeOfDate?.type === "strict_no") {
-      cellClasses += "bg-red-600 text-white font-semibold rounded-lg ";
+      cellClasses += "bg-red-600 text-white font-semibold ";
     } else if (userRangeOfDate?.type === "rather_not") {
-      cellClasses += "bg-yellow-500 text-white font-semibold rounded-lg ";
+      cellClasses += "bg-yellow-500 text-white font-semibold ";
     } else if (userRangeOfDate?.type === "favorite") {
-      cellClasses += "bg-green-600 text-white font-semibold rounded-lg ";
+      cellClasses += "bg-green-600 text-white font-semibold ";
     }
   } else if (userRangeOfDate) {
     if (userRangeOfDate.type === "strict_no") {
@@ -82,9 +82,9 @@ export function DateBox({
       cellClasses += "bg-green-100 text-green-800 ";
     }
   } else if (isToday) {
-    cellClasses += "bg-gray-100 text-gray-900 font-semibold rounded-lg ";
+    cellClasses += "bg-gray-100 text-gray-900 font-semibold ring-1 ring-gray-300 ";
   } else {
-    cellClasses += "text-gray-700 hover:bg-gray-50 rounded-lg ";
+    cellClasses += "bg-gray-50 text-gray-700 hover:bg-gray-100 ";
   }
 
   return (
