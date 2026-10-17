@@ -10,16 +10,16 @@ export function RangeTypeSelector({
   onlyLegend?: boolean;
 }) {
   return (
-    <div className="flex gap-2 mb-4 range-type-selector">
+    <div className="flex flex-wrap gap-2 mb-4 range-type-selector">
       {onlyLegend ? (
         <>
-          <div className="px-3 py-1 rounded-full text-sm bg-red-100 text-red-800 border border-red-200">
+          <div className="px-3 py-1 rounded-full text-sm whitespace-nowrap bg-red-100 text-red-800 border border-red-200">
             Strict No
           </div>
-          <div className="px-3 py-1 rounded-full text-sm bg-yellow-100 text-yellow-800 border border-yellow-200">
+          <div className="px-3 py-1 rounded-full text-sm whitespace-nowrap bg-yellow-100 text-yellow-800 border border-yellow-200">
             Rather Not
           </div>
-          <div className="px-3 py-1 rounded-full text-sm bg-green-100 text-green-800 border border-green-200">
+          <div className="px-3 py-1 rounded-full text-sm whitespace-nowrap bg-green-100 text-green-800 border border-green-200">
             Favorite
           </div>
         </>
@@ -27,7 +27,7 @@ export function RangeTypeSelector({
         <>
           <button
             onClick={() => setSelectedType("strict_no")}
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-3 py-1 rounded-full text-sm whitespace-nowrap ${
               selectedType === "strict_no"
                 ? "border-3 border-red-600 text-red-800"
                 : "border border-red-100 text-red-800"
@@ -38,7 +38,7 @@ export function RangeTypeSelector({
           </button>
           <button
             onClick={() => setSelectedType("rather_not")}
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-3 py-1 rounded-full text-sm whitespace-nowrap ${
               selectedType === "rather_not"
                 ? "border-3 border-yellow-500 text-yellow-800"
                 : "border border-yellow-100 text-yellow-800"
@@ -49,7 +49,7 @@ export function RangeTypeSelector({
           </button>
           <button
             onClick={() => setSelectedType("favorite")}
-            className={`px-3 py-1 rounded-full text-sm ${
+            className={`px-3 py-1 rounded-full text-sm whitespace-nowrap ${
               selectedType === "favorite"
                 ? "border-3 border-green-600 text-green-800"
                 : "border border-green-100 text-green-800"

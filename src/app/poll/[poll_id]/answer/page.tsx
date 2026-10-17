@@ -129,7 +129,7 @@ export default function Home() {
 
   return (
     <div className="font-sans min-h-screen p-4 sm:p-8">
-      <main className="flex flex-col gap-6 max-w-4xl mx-auto">
+      <main className="flex flex-col gap-6 max-w-4xl lg:max-w-6xl mx-auto">
         <Typography
           variant="h4"
           component="h1"
@@ -146,69 +146,73 @@ export default function Home() {
           maxDate={poll.endDate}
           currentUsername={currentUsername}
           className="w-full"
+          actions={
+            <>
+              {currentUsername == null ? (
+                <NameDialogButton
+                  existingUsernames={existingUsernames}
+                  onUsernameSelect={handleUsernameSelect}
+                />
+              ) : (
+                <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    fullWidth
+                    onClick={() => {
+                      setCurrentUsername(undefined);
+                    }}
+                  >
+                    Discard Changes
+                  </Button>
+                  <Button
+                    variant="contained"
+                    startIcon={<CheckIcon />}
+                    fullWidth
+                    disabled={
+                      userRanges.length ===
+                      poll.dateRanges.filter(
+                        (r) => r.userName === currentUsername,
+                      ).length
+                    }
+                    onClick={async () => {
+                      setIsSubmitting(true);
+                      await submitRanges(pollId, currentUsername, userRanges);
+                      setCurrentUsername(undefined);
+                      await fetchPollAndUpdateStates(pollId);
+                      setIsSubmitting(false);
+                    }}
+                    sx={{
+                      backgroundColor: "primary.main",
+                      "&:hover": {
+                        backgroundColor: "primary.dark",
+                      },
+                    }}
+                    loading={isSubmitting}
+                  >
+                    {isSubmitting
+                      ? "Submitting..."
+                      : `Submit Changes for ${currentUsername}`}
+                  </Button>
+                </div>
+              )}
+              <Link
+                href="/"
+                sx={{
+                  display: "block",
+                  textAlign: "center",
+                  marginTop: 4,
+                  color: "primary.main",
+                  "&:hover": {
+                    color: "primary.dark",
+                  },
+                }}
+              >
+                Create new poll
+              </Link>
+            </>
+          }
         />
-
-        {currentUsername == null ? (
-          <NameDialogButton
-            existingUsernames={existingUsernames}
-            onUsernameSelect={handleUsernameSelect}
-          />
-        ) : (
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button
-              variant="outlined"
-              color="secondary"
-              fullWidth
-              onClick={() => {
-                setCurrentUsername(undefined);
-              }}
-            >
-              Discard Changes
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<CheckIcon />}
-              fullWidth
-              disabled={
-                userRanges.length ===
-                poll.dateRanges.filter((r) => r.userName === currentUsername)
-                  .length
-              }
-              onClick={async () => {
-                setIsSubmitting(true);
-                await submitRanges(pollId, currentUsername, userRanges);
-                setCurrentUsername(undefined);
-                await fetchPollAndUpdateStates(pollId);
-                setIsSubmitting(false);
-              }}
-              sx={{
-                backgroundColor: "primary.main",
-                "&:hover": {
-                  backgroundColor: "primary.dark",
-                },
-              }}
-              loading={isSubmitting}
-            >
-              {isSubmitting
-                ? "Submitting..."
-                : `Submit Changes for ${currentUsername}`}
-            </Button>
-          </div>
-        )}
-        <Link
-          href="/"
-          sx={{
-            display: "block",
-            textAlign: "center",
-            marginTop: 4,
-            color: "primary.main",
-            "&:hover": {
-              color: "primary.dark",
-            },
-          }}
-        >
-          Create new poll
-        </Link>
       </main>
     </div>
   );

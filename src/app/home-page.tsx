@@ -60,23 +60,23 @@ export default function HomePage() {
   return (
     <>
       <div className="font-sans min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="container mx-auto px-4 py-8 pb-24 max-w-4xl">
+        <div className="container mx-auto px-4 py-8 pb-24 max-w-4xl lg:max-w-6xl lg:py-16 lg:grid lg:grid-cols-2 lg:gap-16 lg:items-start">
           {/* Hero Section */}
-          <div className="text-center mb-12">
-            <div className="my-16">
+          <div className="text-center mb-12 lg:text-left lg:mb-0 lg:sticky lg:top-16">
+            <div className="my-16 lg:mt-0 lg:mb-10">
               <Image
                 src="/logo.png"
                 alt="Rather Not Logo"
                 width={200}
                 height={200}
                 priority
-                className="mx-auto drop-shadow-2xl hover:scale-105 transition-transform duration-300"
+                className="mx-auto lg:mx-0 drop-shadow-2xl hover:scale-105 transition-transform duration-300"
               />
             </div>
             <h3 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
               Group Events Made Easy
             </h3>
-            <p className="text-l text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-l text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
               Create a poll to find the best dates for your group event. Collect
               everyone&apos;s availability and make planning effortless. No
               accounts. No ads. Free.
@@ -84,7 +84,7 @@ export default function HomePage() {
           </div>
 
           {/* Form Section */}
-          <div className="max-w-2xl mx-auto space-y-8">
+          <div className="max-w-2xl mx-auto w-full space-y-8">
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50 shadow-2xl">
               <Typography
                 variant="h6"

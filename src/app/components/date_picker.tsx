@@ -48,6 +48,7 @@ export interface DatePickerProps {
   maxDate?: Date;
   className?: string;
   currentUsername?: string;
+  actions?: React.ReactNode;
 }
 
 const MONTHS = [
@@ -75,6 +76,7 @@ export default function DatePicker({
   maxDate,
   className = "",
   currentUsername,
+  actions,
 }: DatePickerProps) {
   const [showOtherUserRanges, setShowOtherUserRanges] = useState(false);
   const [currentDate, setCurrentDate] = useState(minDate || new Date());
@@ -269,109 +271,127 @@ export default function DatePicker({
 
   return (
     <>
+      {/* Mobile: one card with the actions below it.
+          Desktop: calendar card left; sidebar card and actions right. */}
       <div
-        className={`bg-white rounded-lg shadow-lg border border-gray-200 p-4 max-w-sm mx-auto ${className}`}
+        className={`flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:grid-rows-[auto_1fr] ${className}`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <button
-            onClick={goToPreviousMonth}
-            disabled={isPreviousMonthDisabled}
-            className={`p-2 rounded-lg transition-colors touch-manipulation ${
-              isPreviousMonthDisabled
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-gray-100"
-            }`}
-            type="button"
-          >
-            <ChevronLeftIcon className="w-5 h-5 text-gray-600" />
-          </button>
-
-          <h2 className="text-lg font-semibold text-gray-900">
-            {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
-          </h2>
-
-          <button
-            onClick={goToNextMonth}
-            disabled={isNextMonthDisabled}
-            className={`p-2 rounded-lg transition-colors touch-manipulation ${
-              isNextMonthDisabled
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-gray-100"
-            }`}
-            type="button"
-          >
-            <ChevronRightIcon className="w-5 h-5 text-gray-600" />
-          </button>
-        </div>
-
-        <RangeTypeSelector
-          onlyLegend={currentUsername == null}
-          selectedType={selectedType}
-          setSelectedType={setSelectedType}
-        />
-        {currentUsername != null && (
-          <FormControlLabel
-            control={
-              <Switch
-                checked={showOtherUserRanges}
-                onChange={(e) => setShowOtherUserRanges(e.target.checked)}
-              />
-            }
-            label="Show others' availabilities"
-            sx={{
-              marginBottom: 2,
-              ".MuiFormControlLabel-label": {
-                color: "#000000",
-              },
-            }}
-          />
-        )}
-
-        {/* Days of week header */}
-        <div className="grid grid-cols-7 gap-1 mb-2 ">
-          {DAYS.map((day) => (
-            <div
-              key={day}
-              className="text-center text-sm font-medium text-gray-500 py-2"
-            >
-              {day}
-            </div>
-          ))}
-        </div>
-
-        {/* Calendar grid */}
-        <div className="grid grid-cols-7 gap-x-1 gap-y-2 mb-4 relative date-range-picker">
-          {calendarDays.map((date, index) => {
-            return date ? (
-              <DateBox
-                key={date.getTime()}
-                date={date}
-                isInTempRange={isDateInTempRange(date)}
+        <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-4 max-w-sm w-full mx-auto flex flex-col lg:contents">
+          {/* Sidebar; its children interleave with the calendar on mobile */}
+          <div className="contents lg:block lg:col-start-2 lg:row-start-1 lg:bg-white lg:rounded-lg lg:shadow-lg lg:border lg:border-gray-200 lg:p-6">
+            <div className="order-2 lg:[&>*:last-child]:!mb-0">
+              <RangeTypeSelector
+                onlyLegend={currentUsername == null}
                 selectedType={selectedType}
-                userRanges={userRanges}
-                otherUserRanges={
-                  !showOtherUserRanges && currentUsername != null
-                    ? []
-                    : otherUserRanges
-                }
-                disabled={isDateDisabled(date) || !currentUsername}
-                onHover={() => handleDateHover(date)}
-                onClick={() => handleDateClick(date)}
-                maxDisplayLevel={maxDisplayLevel}
+                setSelectedType={setSelectedType}
               />
-            ) : (
-              <div className="aspect-square" key={index} />
-            );
-          })}
+              {currentUsername != null && (
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={showOtherUserRanges}
+                      onChange={(e) => setShowOtherUserRanges(e.target.checked)}
+                    />
+                  }
+                  label="Show others' availabilities"
+                  sx={{
+                    marginBottom: 2,
+                    ".MuiFormControlLabel-label": {
+                      color: "#000000",
+                    },
+                  }}
+                />
+              )}
+            </div>
+            <div className="order-4">
+              <SelectedRanges
+                ranges={userRanges}
+                onRangeRemove={removeRange}
+                currentUsername={currentUsername}
+              />
+            </div>
+          </div>
+
+          {/* Calendar; its children interleave with the sidebar on mobile */}
+          <div className="contents lg:block lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:bg-white lg:rounded-lg lg:shadow-lg lg:border lg:border-gray-200 lg:p-6">
+            {/* Header */}
+            <div className="order-1 flex items-center justify-between mb-4">
+              <button
+                onClick={goToPreviousMonth}
+                disabled={isPreviousMonthDisabled}
+                className={`p-2 rounded-lg transition-colors touch-manipulation ${
+                  isPreviousMonthDisabled
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-gray-100"
+                }`}
+                type="button"
+              >
+                <ChevronLeftIcon className="w-5 h-5 text-gray-600" />
+              </button>
+
+              <h2 className="text-lg lg:text-xl font-semibold text-gray-900">
+                {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
+              </h2>
+
+              <button
+                onClick={goToNextMonth}
+                disabled={isNextMonthDisabled}
+                className={`p-2 rounded-lg transition-colors touch-manipulation ${
+                  isNextMonthDisabled
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-gray-100"
+                }`}
+                type="button"
+              >
+                <ChevronRightIcon className="w-5 h-5 text-gray-600" />
+              </button>
+            </div>
+
+            {/* Days of week header */}
+            <div className="order-3 grid grid-cols-7 gap-1 mb-2">
+              {DAYS.map((day) => (
+                <div
+                  key={day}
+                  className="text-center text-sm font-medium text-gray-500 py-2"
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            {/* Calendar grid */}
+            <div className="order-3 grid grid-cols-7 gap-x-1 gap-y-2 mb-4 lg:mb-0 relative date-range-picker">
+              {calendarDays.map((date, index) => {
+                return date ? (
+                  <DateBox
+                    key={date.getTime()}
+                    date={date}
+                    isInTempRange={isDateInTempRange(date)}
+                    selectedType={selectedType}
+                    userRanges={userRanges}
+                    otherUserRanges={
+                      !showOtherUserRanges && currentUsername != null
+                        ? []
+                        : otherUserRanges
+                    }
+                    disabled={isDateDisabled(date) || !currentUsername}
+                    onHover={() => handleDateHover(date)}
+                    onClick={() => handleDateClick(date)}
+                    maxDisplayLevel={maxDisplayLevel}
+                  />
+                ) : (
+                  <div className="aspect-square lg:aspect-[5/4]" key={index} />
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        {/* Selected ranges */}
-        <SelectedRanges
-          ranges={userRanges}
-          onRangeRemove={removeRange}
-          currentUsername={currentUsername}
-        />
+        {actions && (
+          <div className="flex flex-col gap-6 lg:col-start-2 lg:row-start-2">
+            {actions}
+          </div>
+        )}
       </div>
       {isTourOpen && (
         <Tour

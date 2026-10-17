@@ -53,7 +53,7 @@ export function DateBox({
   const isToday = date.toDateString() === new Date().toDateString();
 
   let cellClasses =
-    "aspect-square flex items-center justify-center text-sm cursor-pointer transition-all duration-150 touch-manipulation select-none relative rounded-lg ";
+    "aspect-square lg:aspect-[5/4] flex items-center justify-center text-sm cursor-pointer transition-all duration-150 touch-manipulation select-none relative rounded-lg ";
 
   if (disabled) {
     cellClasses += "bg-gray-50 text-gray-300 cursor-not-allowed ";
@@ -82,7 +82,8 @@ export function DateBox({
       cellClasses += "bg-green-100 text-green-800 ";
     }
   } else if (isToday) {
-    cellClasses += "bg-gray-100 text-gray-900 font-semibold ring-1 ring-gray-300 ";
+    cellClasses +=
+      "bg-gray-100 text-gray-900 font-semibold ring-1 ring-gray-300 ";
   } else {
     cellClasses += "bg-gray-50 text-gray-700 hover:bg-gray-100 ";
   }
@@ -151,7 +152,7 @@ export function DateBox({
             }}
           >
             {showUsername && (
-              <span className="text-[10px] font-medium text-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">
+              <span className="text-[10px] lg:text-xs font-medium text-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">
                 {range.userName}
               </span>
             )}
