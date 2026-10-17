@@ -13,7 +13,6 @@ export function SelectedRanges({
 }) {
   return (
     <>
-      (
       {ranges.filter((r) => r.userName === currentUsername).length > 0 && (
         <div className="space-y-2">
           <h3 className="text-sm font-medium text-gray-700">
@@ -51,7 +50,6 @@ export function SelectedRanges({
             })}
         </div>
       )}
-      )
     </>
   );
 }
