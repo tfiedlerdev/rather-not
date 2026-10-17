@@ -22,11 +22,11 @@
     "@mui/icons-material": "^7.3.2",
     "@mui/lab": "^7.0.0-beta.17",
     "@mui/material": "^7.3.2",
-    "@prisma/client": "^6.16.2",
+    "@prisma/client": "^6.19.3",
     "@reactour/tour": "^3.8.0",
     "next": "16.4.2",
     "primereact": "^10.9.7",
-    "prisma": "^6.16.2",
+    "prisma": "^6.19.3",
     "react": "19.2.9",
     "react-dom": "19.2.9"
   },
@@ -39,8 +39,11 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "16.4.2",
     "prettier": "^3.6.2",
-    "prettier-eslint": "^16.4.2",
+    "prettier-eslint": "^17.1.2",
     "tailwindcss": "^4",
     "typescript": "^5.9.2"
+  },
+  "overrides": {
+    "deepmerge-ts": "^8.0.2"
   }
 }
